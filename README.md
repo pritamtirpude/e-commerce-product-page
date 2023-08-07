@@ -9,6 +9,7 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
   - [Overview](#overview)
     - [The challenge](#the-challenge)
     - [Screenshot](#screenshot)
+    - [Links](#links)
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
@@ -30,7 +31,8 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![](./src/assets/screenshot_one.png)
+![](./src/assets/screenshot_two.png)
 
 ### Links
 
