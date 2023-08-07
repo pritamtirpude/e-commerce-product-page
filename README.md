@@ -180,6 +180,6 @@ const LightBox = ({ setIsClicked, isProduct }) => {
 ## Author
 
 - Frontend Mentor - [@pritamtirpude](https://www.frontendmentor.io/profile/pritamtirpude)
-- Twitter - [@ptirpude1991](https://twitter.com/ptirpude1991)https://twitter.com/ptirpude1991)
+- Twitter - [@ptirpude1991](https://twitter.com/ptirpude1991)
 
 
