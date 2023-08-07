@@ -9,17 +9,12 @@ This is a solution to the [E-commerce product page challenge on Frontend Mentor]
   - [Overview](#overview)
     - [The challenge](#the-challenge)
     - [Screenshot](#screenshot)
-    - [Links](#links)
   - [My process](#my-process)
     - [Built with](#built-with)
     - [What I learned](#what-i-learned)
-    - [Continued development](#continued-development)
-    - [Useful resources](#useful-resources)
   - [Author](#author)
-  - [Acknowledgments](#acknowledgments)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
-
+  
 ## Overview
 
 ### The challenge
@@ -37,80 +32,154 @@ Users should be able to:
 
 ![](./screenshot.jpg)
 
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
-
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [Frontend Mentor Solution URL](https://www.frontendmentor.io/solutions/product-landing-page-using-react-js-context-api-tailwind-css-4pssbWUEdj)
+- Live Site URL: [Live URL](https://e-commerce-product-page-app.vercel.app/)
 
 ## My process
 
 ### Built with
 
 - Semantic HTML5 markup
-- CSS custom properties
+- Tailwind CSS
 - Flexbox
-- CSS Grid
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
+- [Framer Motion](https://www.framer.com/) - Animation Library
 
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+Learned how to build a custom lightbox gallery using framer motion and Reusable components.
 
-To see how you can add code snippets, see below:
+```LightBox Component JSX
+const LightBox = ({ setIsClicked, isProduct }) => {
+  const [imgIndex, setImgIndex] = useState(isProduct);
+  const [direction, setDirection] = useState("");
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+  const productImages = [
+    productOneImg,
+    productTwoImg,
+    productThreeImg,
+    productFourImg,
+  ];
+
+  const thumbsArray = [
+    productOneThumb,
+    productTwoThumb,
+    productThreeThumb,
+    productFourThumb,
+  ];
+
+  const handleNext = () => {
+    setImgIndex((prevState) =>
+      prevState + 1 === productImages.length ? 0 : prevState + 1
+    );
+    setDirection("right");
+  };
+
+  const handlePrevious = () => {
+    setImgIndex((prevState) =>
+      prevState - 1 < 0 ? productImages.length - 1 : prevState - 1
+    );
+    setDirection("left");
+  };
+
+  return (
+    <motion.div
+      variants={fadeAnimation}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      className="fixed w-full h-screen top-0 left-0 bg-black-color/70 flex items-center justify-center flex-col"
+      onClick={() => setIsClicked((prevState) => !prevState)}
+    >
+      <div className="relative" onClick={(e) => e.stopPropagation()}>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={imgIndex}
+            className="overflow-hidden w-[445px] flex rounded-xl"
+          >
+            <motion.img
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              variants={silderVariants}
+              initial={direction === "right" ? "hiddenRight" : "hiddenLeft"}
+              exit="exit"
+              animate="show"
+              src={productImages[imgIndex]}
+              alt="shoe"
+              className="w-full h-[445px] object-cover cursor-pointer"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        <div
+          className="bg-white-color w-14 h-14 flex justify-center items-center p-3 rounded-full absolute top-2/4 -left-7 z-40 cursor-pointer"
+          onClick={handlePrevious}
+        >
+          <ChevronLeft size={30} className="hover:text-primary-orange" />
+        </div>
+        <div
+          className="bg-white-color w-14 h-14 flex justify-center items-center p-3 rounded-full absolute top-2/4 -right-7 cursor-pointer"
+          onClick={handleNext}
+        >
+          <ChevronRight size={30} className="hover:text-primary-orange" />
+        </div>
+        <div
+          className="absolute -top-12 right-0"
+          onClick={() => setIsClicked((prevState) => !prevState)}
+        >
+          <X
+            size={30}
+            className="text-white-color cursor-pointer hover:text-primary-orange"
+          />
+        </div>
+      </div>
+
+      <div
+        className="flex items-center justify-between gap-5 mt-5"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {thumbsArray.map((thumb, index) => (
+          <div
+            key={index}
+            onClick={() => setImgIndex(index)}
+            className={`${
+              imgIndex === index ? "ring-2 ring-primary-orange" : ""
+            } overflow-hidden shadow-lg rounded-xl relative z-50 cursor-pointer`}
+          >
+            <img
+              src={thumb}
+              className={`w-full h-[88px] object-cover cursor-pointer`}
+              alt="thumbnail"
+            />
+
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                variants={thumbVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                key={imgIndex}
+                className={`absolute top-0 left-0 w-0 z-10 h-full ${
+                  imgIndex === index ? "bg-primary-pale-orange blur-xl" : ""
+                }`}
+              ></motion.div>
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+};
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
-
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-**Note: Delete this note and the content within this section and replace with your own learnings.**
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
-
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+- Frontend Mentor - [@pritamtirpude](https://www.frontendmentor.io/profile/pritamtirpude)
+- Twitter - [@ptirpude1991e](https://twitter.com/ptirpude1991)https://twitter.com/ptirpude1991e)
 
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
 
