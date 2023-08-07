@@ -94,7 +94,13 @@ const Product = () => {
             </div>
 
             <button
-              onClick={() => addItemToCart(product)}
+              onClick={() => {
+                if (cartItems.length === 0) {
+                  addItemToCart(product);
+                } else {
+                  return;
+                }
+              }}
               type="button"
               className="flex flex-1 items-center justify-center gap-2 text-white-color font-bold bg-primary-orange p-3 w-full rounded-lg text-white cursor-pointer hover:opacity-70 decoration-0"
             >
