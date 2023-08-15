@@ -44,7 +44,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, setIsOpen }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute top-28">
-          <ul className="flex flex-col ml-5 gap-4 w-full">
+          <motion.ul className="flex flex-col ml-5 gap-4 w-full">
             {NavLinks.map((link, index) => (
               <motion.li
                 initial={{ x: "-100%", opacity: 0 }}
@@ -52,8 +52,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, setIsOpen }) => {
                   x: "0%",
                   opacity: 1,
                   transition: {
-                    duration: 0.25,
-                    type: "spring",
+                    duration: 0.2,
                     delay: `0.${index}`,
                   },
                 }}
@@ -67,7 +66,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, setIsOpen }) => {
                 {link.label}
               </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </div>
       </motion.div>
     </motion.div>

@@ -127,7 +127,7 @@ export const sidebarAnim = {
   show: {
     x: "0%",
     opacity: 1,
-    transition: { duration: 0.3, stiffness: 100 },
+    transition: { duration: 0.3 },
   },
-  exit: { x: "-100%", opacity: 0, delay: 0.2 },
+  exit: { x: "-100%", opacity: 0 },
 };
